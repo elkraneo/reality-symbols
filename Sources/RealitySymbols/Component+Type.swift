@@ -1,7 +1,8 @@
 import Foundation
+import RealityKit
 
 #if os(visionOS)
-public enum ComponentType: CaseIterable, Codable {
+  public enum ComponentType: CaseIterable, Codable {
     case accessibilityComponent
     case adaptiveResolutionComponent
     case ambientAudioComponent
@@ -33,5 +34,74 @@ public enum ComponentType: CaseIterable, Codable {
     case transform
     case videoPlayerComponent
     case worldComponent
-}
+  }
+
+  extension ComponentType {
+    public var type: RealityKit.Component.Type {
+      switch self {
+        case .accessibilityComponent:
+          return AccessibilityComponent.self
+        case .adaptiveResolutionComponent:
+          return AdaptiveResolutionComponent.self
+        case .ambientAudioComponent:
+          return AmbientAudioComponent.self
+        case .anchoringComponent:
+          return AnchoringComponent.self
+        case .audioMixGroupsComponent:
+          return AudioMixGroupsComponent.self
+        case .channelAudioComponent:
+          return ChannelAudioComponent.self
+        case .characterControllerComponent:
+          return CharacterControllerComponent.self
+        case .characterControllerStateComponent:
+          return CharacterControllerStateComponent.self
+        case .collisionComponent:
+          return CollisionComponent.self
+        case .groundingShadowComponent:
+          return GroundingShadowComponent.self
+        case .hoverEffectComponent:
+          return HoverEffectComponent.self
+        case .imageBasedLightComponent:
+          return ImageBasedLightComponent.self
+        case .imageBasedLightReceiverComponent:
+          return ImageBasedLightReceiverComponent.self
+        case .inputTargetComponent:
+          return InputTargetComponent.self
+        case .modelComponent:
+          return ModelComponent.self
+        case .modelDebugOptionsComponent:
+          return ModelDebugOptionsComponent.self
+        case .modelSortGroupComponent:
+          return ModelSortGroupComponent.self
+        case .opacityComponent:
+          return OpacityComponent.self
+        case .particleEmitterComponent:
+          return ParticleEmitterComponent.self
+        case .perspectiveCameraComponent:
+          return PerspectiveCameraComponent.self
+        case .physicsBodyComponent:
+          return PhysicsBodyComponent.self
+        case .physicsMotionComponent:
+          return PhysicsMotionComponent.self
+        case .physicsSimulationComponent:
+          return PhysicsSimulationComponent.self
+        case .portalComponent:
+          return PortalComponent.self
+        case .sceneUnderstandingComponent:
+          return SceneUnderstandingComponent.self
+        case .spatialAudioComponent:
+          return SpatialAudioComponent.self
+        case .synchronizationComponent:
+          return SynchronizationComponent.self
+        case .textComponent:
+          return TextComponent.self
+        case .transform:
+          return Transform.self
+        case .videoPlayerComponent:
+          return VideoPlayerComponent.self
+        case .worldComponent:
+          return WorldComponent.self
+      }
+    }
+  }
 #endif
