@@ -1,0 +1,20 @@
+import Foundation
+
+#if os(visionOS)
+public enum ComponentType: CaseIterable, Codable {
+%{
+  import json
+}%
+% with open('Components.json') as file:
+    % data = json.load(file)
+    % for component in data["components"]:
+%{
+code = component[0].lower() + component[1:]
+}%
+        % if code:
+    case ${code}
+        %end
+    %end
+%end
+}
+#endif
