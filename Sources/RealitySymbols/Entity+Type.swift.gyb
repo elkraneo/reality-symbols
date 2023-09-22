@@ -1,11 +1,13 @@
 import Foundation
+import RealityKit
 
-#if os(visionOS)
+#if os(iOS)
+
 public enum EntityType: CaseIterable, Codable {
 %{
   import json
 }%
-% with open('Entities.json') as file:
+% with open('Entities_iOS.json') as file:
     % data = json.load(file)
     % for entity in data["entities"]:
 %{
@@ -17,4 +19,76 @@ code = entity[0].lower() + entity[1:]
     %end
 %end
 }
+
+extension EntityType {
+  public var type: RealityKit.Entity.Type {
+    switch self {
+    % for entity in data["entities"]:
+    case .${entity[0].lower() + entity[1:]}:
+      return ${entity}.self
+    %end
+    }
+  }
+}
+
+#elseif os(macOS)
+
+public enum EntityType: CaseIterable, Codable {
+%{
+  import json
+}%
+% with open('Entities_macOS.json') as file:
+    % data = json.load(file)
+    % for entity in data["entities"]:
+%{
+code = entity[0].lower() + entity[1:]
+}%
+        % if code:
+    case ${code}
+        %end
+    %end
+%end
+}
+
+extension EntityType {
+  public var type: RealityKit.Entity.Type {
+    switch self {
+    % for entity in data["entities"]:
+    case .${entity[0].lower() + entity[1:]}:
+      return ${entity}.self
+    %end
+    }
+  }
+}
+
+#elseif os(visionOS)
+
+public enum EntityType: CaseIterable, Codable {
+%{
+  import json
+}%
+% with open('Entities_xrOS.json') as file:
+    % data = json.load(file)
+    % for entity in data["entities"]:
+%{
+code = entity[0].lower() + entity[1:]
+}%
+        % if code:
+    case ${code}
+        %end
+    %end
+%end
+}
+
+extension EntityType {
+  public var type: RealityKit.Entity.Type {
+    switch self {
+    % for entity in data["entities"]:
+    case .${entity[0].lower() + entity[1:]}:
+      return ${entity}.self
+    %end
+    }
+  }
+}
+
 #endif
