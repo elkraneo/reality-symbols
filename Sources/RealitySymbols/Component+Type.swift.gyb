@@ -1,12 +1,13 @@
 import Foundation
 import RealityKit
 
-#if os(visionOS)
+#if os(iOS)
+
 public enum ComponentType: CaseIterable, Codable {
 %{
   import json
 }%
-% with open('Components.json') as file:
+% with open('Components_iOS.json') as file:
     % data = json.load(file)
     % for component in data["components"]:
 %{
@@ -29,4 +30,98 @@ extension ComponentType {
     }
   }
 }
+
+extension ComponentType: CustomStringConvertible {
+  public var description: String {
+    switch self {
+    % for component in data["components"]:
+    case .${component[0].lower() + component[1:]}:
+      return "${component}"
+    %end
+    }
+  }
+}
+
+#elseif os(macOS)
+
+public enum ComponentType: CaseIterable, Codable {
+%{
+  import json
+}%
+% with open('Components_macOS.json') as file:
+    % data = json.load(file)
+    % for component in data["components"]:
+%{
+code = component
+}%
+        % if code:
+    case ${code[0].lower() + code[1:]}
+        %end
+    %end
+%end
+}
+
+extension ComponentType {
+  public var type: RealityKit.Component.Type {
+    switch self {
+    % for component in data["components"]:
+    case .${component[0].lower() + component[1:]}:
+      return ${component}.self
+    %end
+    }
+  }
+}
+
+extension ComponentType: CustomStringConvertible {
+  public var description: String {
+    switch self {
+    % for component in data["components"]:
+    case .${component[0].lower() + component[1:]}:
+      return "${component}"
+    %end
+    }
+  }
+}
+
+#elseif os(visionOS)
+
+public enum ComponentType: CaseIterable, Codable {
+%{
+  import json
+}%
+% with open('Components_xrOS.json') as file:
+    % data = json.load(file)
+    % for component in data["components"]:
+%{
+code = component
+}%
+        % if code:
+    case ${code[0].lower() + code[1:]}
+        %end
+    %end
+%end
+}
+
+extension ComponentType {
+  public var type: RealityKit.Component.Type {
+    switch self {
+    % for component in data["components"]:
+    case .${component[0].lower() + component[1:]}:
+      return ${component}.self
+    %end
+    }
+  }
+}
+
+extension ComponentType: CustomStringConvertible {
+  public var description: String {
+    switch self {
+    % for component in data["components"]:
+    case .${component[0].lower() + component[1:]}:
+      return "${component}"
+    %end
+    }
+  }
+}
+
 #endif
