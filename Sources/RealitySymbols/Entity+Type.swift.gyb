@@ -31,6 +31,17 @@ extension EntityType {
   }
 }
 
+extension EntityType: CustomStringConvertible {
+  public var description: String {
+    switch self {
+    % for entity in data["entities"]:
+    case .${entity[0].lower() + entity[1:]}:
+      return "${entity}"
+    %end
+    }
+  }
+}
+
 #elseif os(macOS)
 
 public enum EntityType: CaseIterable, Codable {
@@ -61,6 +72,17 @@ extension EntityType {
   }
 }
 
+extension EntityType: CustomStringConvertible {
+  public var description: String {
+    switch self {
+    % for entity in data["entities"]:
+    case .${entity[0].lower() + entity[1:]}:
+      return "${entity}"
+    %end
+    }
+  }
+}
+
 #elseif os(visionOS)
 
 public enum EntityType: CaseIterable, Codable {
@@ -86,6 +108,17 @@ extension EntityType {
     % for entity in data["entities"]:
     case .${entity[0].lower() + entity[1:]}:
       return ${entity}.self
+    %end
+    }
+  }
+}
+
+extension EntityType: CustomStringConvertible {
+  public var description: String {
+    switch self {
+    % for entity in data["entities"]:
+    case .${entity[0].lower() + entity[1:]}:
+      return "${entity}"
     %end
     }
   }

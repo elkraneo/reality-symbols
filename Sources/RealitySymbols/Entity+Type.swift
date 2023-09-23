@@ -22,6 +22,19 @@ extension EntityType {
   }
 }
 
+extension EntityType: CustomStringConvertible {
+  public var description: String {
+    switch self {
+    case .entity:
+      return "Entity"
+    case .modelEntity:
+      return "ModelEntity"
+    case .perspectiveCamera:
+      return "PerspectiveCamera"
+    }
+  }
+}
+
 #elseif os(macOS)
 
 public enum EntityType: CaseIterable, Codable {
@@ -39,6 +52,19 @@ extension EntityType {
       return ModelEntity.self
     case .perspectiveCamera:
       return PerspectiveCamera.self
+    }
+  }
+}
+
+extension EntityType: CustomStringConvertible {
+  public var description: String {
+    switch self {
+    case .entity:
+      return "Entity"
+    case .modelEntity:
+      return "ModelEntity"
+    case .perspectiveCamera:
+      return "PerspectiveCamera"
     }
   }
 }
@@ -66,6 +92,23 @@ extension EntityType {
       return PerspectiveCamera.self
     case .triggerVolume:
       return TriggerVolume.self
+    }
+  }
+}
+
+extension EntityType: CustomStringConvertible {
+  public var description: String {
+    switch self {
+    case .anchorEntity:
+      return "AnchorEntity"
+    case .entity:
+      return "Entity"
+    case .modelEntity:
+      return "ModelEntity"
+    case .perspectiveCamera:
+      return "PerspectiveCamera"
+    case .triggerVolume:
+      return "TriggerVolume"
     }
   }
 }
