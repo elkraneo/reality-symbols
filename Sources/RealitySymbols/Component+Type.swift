@@ -125,11 +125,17 @@ public enum ComponentType: CaseIterable, Codable {
   case transform
 }
 
+
 extension ComponentType {
   public var type: RealityKit.Component.Type {
     switch self {
     case .accessibilityComponent:
-      return AccessibilityComponent.self
+      if #available(macOS 14.0, *) {
+        return AccessibilityComponent.self
+      } else {
+        // Fallback on earlier versions
+        fatalError()
+      }
     case .anchoringComponent:
       return AnchoringComponent.self
     case .characterControllerComponent:
