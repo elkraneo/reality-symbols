@@ -96,44 +96,64 @@ func extractComponents(from symbolGraph: SymbolGraph) -> [SymbolGraph.Symbol] {
 
 // MARK: Properties
 
+private struct _Properties: Codable {
+  let name: String
+  let identifiers: [String]
+  let complete: [String]
+}
+
 private func extractProperties(
   from symbols: [SymbolGraph.Symbol],
   in symbolGraph: SymbolGraph
-) -> [(String, [String])] {
-  let properties = symbols.map({ symbol in
-    symbolGraph.symbols.values
+) -> [_Properties] {
+
+  var properties: [_Properties] = []
+
+  for symbol in symbols {
+    let subHeadings = symbolGraph.symbols.values
       .filter({ $0.pathComponents.count == 2 })
       .filter({ $0.pathComponents.contains(symbol.names.title) })
       .filter({ $0.kind.identifier == .property })
       .compactMap(\.names.subHeading)
+
+    let identifiers =
+      subHeadings
+      .map({ $0.filter({ $0.kind == .identifier }) })
+      .flatMap({ $0.map(\.spelling) })
+      .sorted()
+
+    let complete =
+      subHeadings
       .map({ $0.map(\.spelling).reduce("", +) })
       .sorted()
-  })
 
-  var entityWithProperties: [(String, [String])] = []
-  
-  for value in zip(symbols, properties) {
-    entityWithProperties.append((value.0.names.title, value.1))
+    properties.append(
+      .init(
+        name: symbol.names.title,
+        identifiers: identifiers,
+        complete: complete
+      )
+    )
   }
-  
-  return entityWithProperties
+
+  return properties
 }
 
 // MARK: - Create files
 
 func createEntitiesFile(from symbolGraph: SymbolGraph, at path: String) {
   let symbols = extractEntities(from: symbolGraph)
-  let entityWithProperties = extractProperties(from: symbols, in: symbolGraph)
+  let properties = extractProperties(from: symbols, in: symbolGraph)
 
   struct _Entity: Codable {
     let name: String
-    let properties: [String]
+    let properties: _Properties
   }
 
   var _entities: [_Entity] = []
 
-  for value in entityWithProperties {
-    _entities.append(_Entity(name: value.0, properties: value.1))
+  for p in properties {
+    _entities.append(_Entity(name: p.name, properties: p))
   }
 
   let encoded = try! JSONEncoder().encode(_entities.sorted(by: { $0.name < $1.name }))
@@ -142,19 +162,19 @@ func createEntitiesFile(from symbolGraph: SymbolGraph, at path: String) {
 
 func createComponentsFile(from symbolGraph: SymbolGraph, at path: String) {
   let symbols = extractComponents(from: symbolGraph)
-  let componentWithProperties = extractProperties(from: symbols, in: symbolGraph)
+  let properties = extractProperties(from: symbols, in: symbolGraph)
 
   struct _Component: Codable {
     let name: String
-    let properties: [String]
+    let properties: _Properties
   }
 
   var _components: [_Component] = []
 
-  for value in componentWithProperties {
-    _components.append(_Component(name: value.0, properties: value.1))
+  for p in properties {
+    _components.append(_Component(name: p.name, properties: p))
   }
-  
+
   let encoded = try! JSONEncoder().encode(_components.sorted(by: { $0.name < $1.name }))
   FileManager.default.createFile(atPath: path, contents: encoded)
 }
