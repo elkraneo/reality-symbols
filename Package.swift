@@ -29,9 +29,7 @@ let package = Package(
         .product(name: "SymbolKit", package: "swift-docc-symbolkit"),
       ],
       resources: [
-        .copy("Resources/xrOS/"),
-        .copy("Resources/iOS/"),
-        .copy("Resources/macOS/"),
+        .copy("Resources")
       ]
     ),
     .testTarget(

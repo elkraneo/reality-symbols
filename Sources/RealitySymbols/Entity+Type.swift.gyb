@@ -7,7 +7,7 @@ public enum EntityType: CaseIterable, Codable {
 %{
   import json
 }%
-% with open('Entities_iOS.json') as file:
+% with open('Resources/iOS/Processed/Entities.json') as file:
     % data = json.load(file)
     % for entity in data["entities"]:
 %{
@@ -48,7 +48,7 @@ public enum EntityType: CaseIterable, Codable {
 %{
   import json
 }%
-% with open('Entities_macOS.json') as file:
+% with open('Resources/macOS/Processed/Entities.json') as file:
     % data = json.load(file)
     % for entity in data["entities"]:
 %{
@@ -89,7 +89,7 @@ public enum EntityType: CaseIterable, Codable {
 %{
   import json
 }%
-% with open('Entities_xrOS.json') as file:
+% with open('Resources/xrOS/Processed/Entities.json') as file:
     % data = json.load(file)
     % for entity in data["entities"]:
 %{

@@ -4,12 +4,60 @@ import RealityKit
 #if os(iOS)
 
 public enum ComponentType: CaseIterable, Codable {
+    case accessibilityComponent
+    case anchoringComponent
+    case bodyTrackingComponent
+    case characterControllerComponent
+    case characterControllerStateComponent
+    case collisionComponent
+    case directionalLightComponent
+    case modelComponent
+    case modelDebugOptionsComponent
+    case perspectiveCameraComponent
+    case physicsBodyComponent
+    case physicsMotionComponent
+    case pointLightComponent
+    case sceneUnderstandingComponent
+    case spotLightComponent
+    case synchronizationComponent
     case transform
 }
 
 extension ComponentType {
   public var type: RealityKit.Component.Type {
     switch self {
+    case .accessibilityComponent:
+      return AccessibilityComponent.self
+    case .anchoringComponent:
+      return AnchoringComponent.self
+    case .bodyTrackingComponent:
+      return BodyTrackingComponent.self
+    case .characterControllerComponent:
+      return CharacterControllerComponent.self
+    case .characterControllerStateComponent:
+      return CharacterControllerStateComponent.self
+    case .collisionComponent:
+      return CollisionComponent.self
+    case .directionalLightComponent:
+      return DirectionalLightComponent.self
+    case .modelComponent:
+      return ModelComponent.self
+    case .modelDebugOptionsComponent:
+      return ModelDebugOptionsComponent.self
+    case .perspectiveCameraComponent:
+      return PerspectiveCameraComponent.self
+    case .physicsBodyComponent:
+      return PhysicsBodyComponent.self
+    case .physicsMotionComponent:
+      return PhysicsMotionComponent.self
+    case .pointLightComponent:
+      return PointLightComponent.self
+    case .sceneUnderstandingComponent:
+      return SceneUnderstandingComponent.self
+    case .spotLightComponent:
+      return SpotLightComponent.self
+    case .synchronizationComponent:
+      return SynchronizationComponent.self
     case .transform:
       return Transform.self
     }
@@ -19,6 +67,38 @@ extension ComponentType {
 extension ComponentType: CustomStringConvertible {
   public var description: String {
     switch self {
+    case .accessibilityComponent:
+      return "AccessibilityComponent"
+    case .anchoringComponent:
+      return "AnchoringComponent"
+    case .bodyTrackingComponent:
+      return "BodyTrackingComponent"
+    case .characterControllerComponent:
+      return "CharacterControllerComponent"
+    case .characterControllerStateComponent:
+      return "CharacterControllerStateComponent"
+    case .collisionComponent:
+      return "CollisionComponent"
+    case .directionalLightComponent:
+      return "DirectionalLightComponent"
+    case .modelComponent:
+      return "ModelComponent"
+    case .modelDebugOptionsComponent:
+      return "ModelDebugOptionsComponent"
+    case .perspectiveCameraComponent:
+      return "PerspectiveCameraComponent"
+    case .physicsBodyComponent:
+      return "PhysicsBodyComponent"
+    case .physicsMotionComponent:
+      return "PhysicsMotionComponent"
+    case .pointLightComponent:
+      return "PointLightComponent"
+    case .sceneUnderstandingComponent:
+      return "SceneUnderstandingComponent"
+    case .spotLightComponent:
+      return "SpotLightComponent"
+    case .synchronizationComponent:
+      return "SynchronizationComponent"
     case .transform:
       return "Transform"
     }
@@ -28,12 +108,54 @@ extension ComponentType: CustomStringConvertible {
 #elseif os(macOS)
 
 public enum ComponentType: CaseIterable, Codable {
+    case accessibilityComponent
+    case anchoringComponent
+    case characterControllerComponent
+    case characterControllerStateComponent
+    case collisionComponent
+    case directionalLightComponent
+    case modelComponent
+    case modelDebugOptionsComponent
+    case perspectiveCameraComponent
+    case physicsBodyComponent
+    case physicsMotionComponent
+    case pointLightComponent
+    case spotLightComponent
+    case synchronizationComponent
     case transform
 }
 
 extension ComponentType {
   public var type: RealityKit.Component.Type {
     switch self {
+    case .accessibilityComponent:
+      return AccessibilityComponent.self
+    case .anchoringComponent:
+      return AnchoringComponent.self
+    case .characterControllerComponent:
+      return CharacterControllerComponent.self
+    case .characterControllerStateComponent:
+      return CharacterControllerStateComponent.self
+    case .collisionComponent:
+      return CollisionComponent.self
+    case .directionalLightComponent:
+      return DirectionalLightComponent.self
+    case .modelComponent:
+      return ModelComponent.self
+    case .modelDebugOptionsComponent:
+      return ModelDebugOptionsComponent.self
+    case .perspectiveCameraComponent:
+      return PerspectiveCameraComponent.self
+    case .physicsBodyComponent:
+      return PhysicsBodyComponent.self
+    case .physicsMotionComponent:
+      return PhysicsMotionComponent.self
+    case .pointLightComponent:
+      return PointLightComponent.self
+    case .spotLightComponent:
+      return SpotLightComponent.self
+    case .synchronizationComponent:
+      return SynchronizationComponent.self
     case .transform:
       return Transform.self
     }
@@ -43,6 +165,34 @@ extension ComponentType {
 extension ComponentType: CustomStringConvertible {
   public var description: String {
     switch self {
+    case .accessibilityComponent:
+      return "AccessibilityComponent"
+    case .anchoringComponent:
+      return "AnchoringComponent"
+    case .characterControllerComponent:
+      return "CharacterControllerComponent"
+    case .characterControllerStateComponent:
+      return "CharacterControllerStateComponent"
+    case .collisionComponent:
+      return "CollisionComponent"
+    case .directionalLightComponent:
+      return "DirectionalLightComponent"
+    case .modelComponent:
+      return "ModelComponent"
+    case .modelDebugOptionsComponent:
+      return "ModelDebugOptionsComponent"
+    case .perspectiveCameraComponent:
+      return "PerspectiveCameraComponent"
+    case .physicsBodyComponent:
+      return "PhysicsBodyComponent"
+    case .physicsMotionComponent:
+      return "PhysicsMotionComponent"
+    case .pointLightComponent:
+      return "PointLightComponent"
+    case .spotLightComponent:
+      return "SpotLightComponent"
+    case .synchronizationComponent:
+      return "SynchronizationComponent"
     case .transform:
       return "Transform"
     }

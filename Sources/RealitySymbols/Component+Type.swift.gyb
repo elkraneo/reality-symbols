@@ -7,14 +7,14 @@ public enum ComponentType: CaseIterable, Codable {
 %{
   import json
 }%
-% with open('Components_iOS.json') as file:
+% with open('Resources/iOS/Processed/Components.json') as file:
     % data = json.load(file)
-    % for component in data["components"]:
+    % for component in data:
 %{
 code = component
 }%
         % if code:
-    case ${code[0].lower() + code[1:]}
+    case ${code["name"][0].lower() + code["name"][1:]}
         %end
     %end
 %end
@@ -23,9 +23,9 @@ code = component
 extension ComponentType {
   public var type: RealityKit.Component.Type {
     switch self {
-    % for component in data["components"]:
-    case .${component[0].lower() + component[1:]}:
-      return ${component}.self
+    % for component in data:
+    case .${component["name"][0].lower() + component["name"][1:]}:
+      return ${component["name"]}.self
     %end
     }
   }
@@ -34,9 +34,9 @@ extension ComponentType {
 extension ComponentType: CustomStringConvertible {
   public var description: String {
     switch self {
-    % for component in data["components"]:
-    case .${component[0].lower() + component[1:]}:
-      return "${component}"
+    % for component in data:
+    case .${component["name"][0].lower() + component["name"][1:]}:
+      return "${component["name"]}"
     %end
     }
   }
@@ -48,14 +48,14 @@ public enum ComponentType: CaseIterable, Codable {
 %{
   import json
 }%
-% with open('Components_macOS.json') as file:
+% with open('Resources/macOS/Processed/Components.json') as file:
     % data = json.load(file)
-    % for component in data["components"]:
+    % for component in data:
 %{
 code = component
 }%
         % if code:
-    case ${code[0].lower() + code[1:]}
+    case ${code["name"][0].lower() + code["name"][1:]}
         %end
     %end
 %end
@@ -64,9 +64,9 @@ code = component
 extension ComponentType {
   public var type: RealityKit.Component.Type {
     switch self {
-    % for component in data["components"]:
-    case .${component[0].lower() + component[1:]}:
-      return ${component}.self
+    % for component in data:
+    case .${component["name"][0].lower() + component["name"][1:]}:
+      return ${component["name"]}.self
     %end
     }
   }
@@ -75,9 +75,9 @@ extension ComponentType {
 extension ComponentType: CustomStringConvertible {
   public var description: String {
     switch self {
-    % for component in data["components"]:
-    case .${component[0].lower() + component[1:]}:
-      return "${component}"
+    % for component in data:
+    case .${component["name"][0].lower() + component["name"][1:]}:
+      return "${component["name"]}"
     %end
     }
   }
@@ -89,14 +89,14 @@ public enum ComponentType: CaseIterable, Codable {
 %{
   import json
 }%
-% with open('Components_xrOS.json') as file:
+% with open('Resources/xrOS/Processed/Components.json') as file:
     % data = json.load(file)
-    % for component in data["components"]:
+    % for component in data:
 %{
 code = component
 }%
         % if code:
-    case ${code[0].lower() + code[1:]}
+    case ${code["name"][0].lower() + code["name"][1:]}
         %end
     %end
 %end
@@ -105,9 +105,9 @@ code = component
 extension ComponentType {
   public var type: RealityKit.Component.Type {
     switch self {
-    % for component in data["components"]:
-    case .${component[0].lower() + component[1:]}:
-      return ${component}.self
+    % for component in data:
+    case .${component["name"][0].lower() + component["name"][1:]}:
+      return ${component["name"]}.self
     %end
     }
   }
@@ -116,9 +116,9 @@ extension ComponentType {
 extension ComponentType: CustomStringConvertible {
   public var description: String {
     switch self {
-    % for component in data["components"]:
-    case .${component[0].lower() + component[1:]}:
-      return "${component}"
+    % for component in data:
+    case .${component["name"][0].lower() + component["name"][1:]}:
+      return "${component["name"]}"
     %end
     }
   }

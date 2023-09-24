@@ -1,11 +1,60 @@
 import Foundation
 import SymbolKit
 
+// MARK: - Decoding
+
+func iOSSymbolGraph() -> SymbolGraph {
+  let url = Bundle.module.url(
+    forResource: "RealityFoundation.symbols",
+    withExtension: "json",
+    subdirectory: "Resources/iOS/Symbols"
+  )!
+  let data = try! Data(contentsOf: url)
+  let symbolGraph = try! JSONDecoder().decode(SymbolGraph.self, from: data)
+  return symbolGraph
+}
+
+func macOSSymbolGraph() -> SymbolGraph {
+  let url = Bundle.module.url(
+    forResource: "RealityFoundation.symbols",
+    withExtension: "json",
+    subdirectory: "Resources/macOS/Symbols"
+  )!
+  let data = try! Data(contentsOf: url)
+  let symbolGraph = try! JSONDecoder().decode(SymbolGraph.self, from: data)
+  return symbolGraph
+}
+
+func xrOSSymbolGraph() -> SymbolGraph {
+  let url = Bundle.module.url(
+    forResource: "RealityFoundation.symbols",
+    withExtension: "json",
+    subdirectory: "Resources/xrOS/Symbols"
+  )!
+  let data = try! Data(contentsOf: url)
+  let symbolGraph = try! JSONDecoder().decode(SymbolGraph.self, from: data)
+  return symbolGraph
+}
+
+//TODO: explore `UnifiedSymbolGraph`
+/*
+ let encoder = JSONEncoder()
+ encoder.outputFormatting.insert(.sortedKeys)
+ encoder.outputFormatting.insert(.prettyPrinted)
+
+ let a = try! encoder.encode(symbolGraph)
+ FileManager.default.createFile(atPath: "/Users/cristian/Desktop/a.json", contents: a)
+
+ let unified = UnifiedSymbolGraph.init(fromSingleGraph: symbolGraph, at: url)
+ let b = try! encoder.encode(unified)
+ FileManager.default.createFile(atPath: "/Users/cristian/Desktop/b.json", contents: b)
+ */
+
 // MARK: - Extract
 
 // MARK: Entities
 
-func extractEntities(from symbolGraph: SymbolGraph) -> [SymbolGraph.Symbol] {
+private func extractEntities(from symbolGraph: SymbolGraph) -> [SymbolGraph.Symbol] {
   let entity = symbolGraph.symbols.values.first(where: { $0.names.title == "Entity" })!
 
   let subclassesIdentifiers = symbolGraph.relationships
@@ -20,24 +69,6 @@ func extractEntities(from symbolGraph: SymbolGraph) -> [SymbolGraph.Symbol] {
   }
 
   return subclasses + [entity]
-}
-
-// MARK: Properties
-
-private func extractProperties(from symbols: [SymbolGraph.Symbol], in symbolGraph: SymbolGraph) {
-  let properties = symbols.map({ symbol in
-    symbolGraph.symbols.values
-      .filter({ $0.pathComponents.contains(symbol.names.title) })
-      .filter({ $0.kind.identifier == .property })
-      .compactMap(\.names.subHeading)
-      .map({ $0.map(\.spelling).reduce("", +) })
-      .sorted()
-  })
-
-  for n in zip(symbols, properties) {
-    dump(n.0.names.title)
-    dump(n.1)
-  }
 }
 
 // MARK: Components
@@ -56,136 +87,74 @@ func extractComponents(from symbolGraph: SymbolGraph) -> [SymbolGraph.Symbol] {
     conformingIdentifiers.compactMap { identifier in
       symbolGraph.symbols.values
         .filter({ $0.kind.identifier == .struct })
+        .filter({ !$0.names.title.contains(".") })
         .first(where: { $0.identifier.precise == identifier })
     }
 
-    return components
+  return components
+}
+
+// MARK: Properties
+
+private func extractProperties(
+  from symbols: [SymbolGraph.Symbol],
+  in symbolGraph: SymbolGraph
+) -> [(String, [String])] {
+  let properties = symbols.map({ symbol in
+    symbolGraph.symbols.values
+      .filter({ $0.pathComponents.count == 2 })
+      .filter({ $0.pathComponents.contains(symbol.names.title) })
+      .filter({ $0.kind.identifier == .property })
+      .compactMap(\.names.subHeading)
+      .map({ $0.map(\.spelling).reduce("", +) })
+      .sorted()
+  })
+
+  var entityWithProperties: [(String, [String])] = []
+  
+  for value in zip(symbols, properties) {
+    entityWithProperties.append((value.0.names.title, value.1))
+  }
+  
+  return entityWithProperties
 }
 
 // MARK: - Create files
 
-func createEntitiesFile(_ entities: [SymbolGraph.Symbol]) {
-  struct Entities: Codable {
-    let entities: [String]
-    init(_ entities: [String]) {
-      self.entities = entities
-    }
+func createEntitiesFile(from symbolGraph: SymbolGraph, at path: String) {
+  let symbols = extractEntities(from: symbolGraph)
+  let entityWithProperties = extractProperties(from: symbols, in: symbolGraph)
+
+  struct _Entity: Codable {
+    let name: String
+    let properties: [String]
   }
-  
-  let encoded = try! JSONEncoder().encode(Entities(entities.map(\.names.title).sorted()))
-  
-  // let path = Bundle.module.bundlePath.appending("Components.json")
-  let path = "/Users/cristian/Developer/external/RealitySymbols/source/RealitySymbols/Sources/RealitySymbols/Entities.json"
+
+  var _entities: [_Entity] = []
+
+  for value in entityWithProperties {
+    _entities.append(_Entity(name: value.0, properties: value.1))
+  }
+
+  let encoded = try! JSONEncoder().encode(_entities.sorted(by: { $0.name < $1.name }))
   FileManager.default.createFile(atPath: path, contents: encoded)
 }
 
-func createComponentsFile(_ components: [SymbolGraph.Symbol]) {
-  struct Components: Codable {
-    let components: [String]
-    init(_ components: [String]) {
-      self.components = components
-    }
+func createComponentsFile(from symbolGraph: SymbolGraph, at path: String) {
+  let symbols = extractComponents(from: symbolGraph)
+  let componentWithProperties = extractProperties(from: symbols, in: symbolGraph)
+
+  struct _Component: Codable {
+    let name: String
+    let properties: [String]
+  }
+
+  var _components: [_Component] = []
+
+  for value in componentWithProperties {
+    _components.append(_Component(name: value.0, properties: value.1))
   }
   
-  let encoded = try! JSONEncoder().encode(Components(components.map(\.names.title).sorted()))
-  
-  // let path = Bundle.module.bundlePath.appending("Components.json")
-  let path = "/Users/cristian/Developer/external/RealitySymbols/source/RealitySymbols/Sources/RealitySymbols/Components.json"
+  let encoded = try! JSONEncoder().encode(_components.sorted(by: { $0.name < $1.name }))
   FileManager.default.createFile(atPath: path, contents: encoded)
 }
-
-// MARK: - Decoding
-
-/**
- ```
- swift symbolgraph-extract \
-  -module-name RealityFoundation \
-  -target arm64-apple-ios17.0 \
-  -output-dir ~/Desktop \
-  -pretty-print \
-  -sdk /Applications/Xcode-15.0.0-Release.Candidate.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS17.0.sdk
- ```
- */
-func iOSSymbolGraph() -> SymbolGraph {
-  let url = Bundle.module.url(
-    forResource: "RealityFoundation.symbols",
-    withExtension: "json",
-    subdirectory: "iOS"
-  )!
-  let data = try! Data(contentsOf: url)
-  let symbolGraph = try! JSONDecoder().decode(SymbolGraph.self, from: data)
-  return symbolGraph
-}
-
-/**
- ```
- swift symbolgraph-extract \
-  -module-name RealityFoundation \
-  -target arm64-apple-macos14.0 \
-  -output-dir ~/Desktop \
-  -pretty-print \
-  -sdk /Applications/Xcode-15.0.0-Release.Candidate.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk
- ```
- */
-func macOSSymbolGraph() -> SymbolGraph {
-  let url = Bundle.module.url(
-    forResource: "RealityFoundation.symbols",
-    withExtension: "json",
-    subdirectory: "macOS"
-  )!
-  let data = try! Data(contentsOf: url)
-  let symbolGraph = try! JSONDecoder().decode(SymbolGraph.self, from: data)
-  return symbolGraph
-}
-
-/**
- ```
- swift symbolgraph-extract \
-  -module-name RealityFoundation \
-  -target arm64-apple-xros1.0 \
-  -output-dir ~/Desktop \
-  -pretty-print \
-  -sdk /Applications/Xcode-15.0.0-Beta.8.app/Contents/Developer/Platforms/XROS.platform/Developer/SDKs/XROS1.0.sdk
- ```
- */
-func xrOSSymbolGraph() -> SymbolGraph {
-  let url = Bundle.module.url(
-    forResource: "RealityFoundation.symbols",
-    withExtension: "json",
-    subdirectory: "xrOS"
-  )!
-  let data = try! Data(contentsOf: url)
-  let symbolGraph = try! JSONDecoder().decode(SymbolGraph.self, from: data)
-
-  return symbolGraph
-}
-
-//TODO: explore `UnifiedSymbolGraph`
-/*
- let encoder = JSONEncoder()
- encoder.outputFormatting.insert(.sortedKeys)
- encoder.outputFormatting.insert(.prettyPrinted)
- 
- let a = try! encoder.encode(symbolGraph)
- FileManager.default.createFile(atPath: "/Users/cristian/Desktop/a.json", contents: a)
- 
- let unified = UnifiedSymbolGraph.init(fromSingleGraph: symbolGraph, at: url)
- let b = try! encoder.encode(unified)
- FileManager.default.createFile(atPath: "/Users/cristian/Desktop/b.json", contents: b)
- */
-
-
-// MARK: - GYB
-
-/*
-
- > ./gyb Component+Type.swift.gyb  \
-   -o Component+Type.swift \
-   --line-directive ''
-
-
-> ./gyb Entity+Type.swift.gyb  \
-   -o Entity+Type.swift \
-   --line-directive ''
-
- */
