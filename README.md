@@ -41,9 +41,9 @@ swift symbolgraph-extract \
 
 ## GYB
 
-### Generate Entity types
-
 [Swift GYB](https://nshipster.com/swift-gyb/)
+
+### Generate Entity types
 
 ```
 gyb Entity+Type.swift.gyb  \
