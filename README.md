@@ -1,7 +1,7 @@
 # README
 
-1. Extract symbols with SymbolKit
-2. Parse and filter
+1. Extract symbols with [SymbolKit](https://github.com/apple/swift-docc-symbolkit)
+2. Decode and select
 3. Generate `.swift` files with GYB
 
 
