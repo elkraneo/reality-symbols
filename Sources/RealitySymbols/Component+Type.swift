@@ -4,23 +4,23 @@ import RealityKit
 #if os(iOS)
 
 public enum ComponentType: CaseIterable, Codable {
-    case accessibilityComponent
-    case anchoringComponent
-    case bodyTrackingComponent
-    case characterControllerComponent
-    case characterControllerStateComponent
-    case collisionComponent
-    case directionalLightComponent
-    case modelComponent
-    case modelDebugOptionsComponent
-    case perspectiveCameraComponent
-    case physicsBodyComponent
-    case physicsMotionComponent
-    case pointLightComponent
-    case sceneUnderstandingComponent
-    case spotLightComponent
-    case synchronizationComponent
-    case transform
+  case accessibilityComponent
+  case anchoringComponent
+  case bodyTrackingComponent
+  case characterControllerComponent
+  case characterControllerStateComponent
+  case collisionComponent
+  case directionalLightComponent
+  case modelComponent
+  case modelDebugOptionsComponent
+  case perspectiveCameraComponent
+  case physicsBodyComponent
+  case physicsMotionComponent
+  case pointLightComponent
+  case sceneUnderstandingComponent
+  case spotLightComponent
+  case synchronizationComponent
+  case transform
 }
 
 extension ComponentType {
@@ -108,21 +108,21 @@ extension ComponentType: CustomStringConvertible {
 #elseif os(macOS)
 
 public enum ComponentType: CaseIterable, Codable {
-    case accessibilityComponent
-    case anchoringComponent
-    case characterControllerComponent
-    case characterControllerStateComponent
-    case collisionComponent
-    case directionalLightComponent
-    case modelComponent
-    case modelDebugOptionsComponent
-    case perspectiveCameraComponent
-    case physicsBodyComponent
-    case physicsMotionComponent
-    case pointLightComponent
-    case spotLightComponent
-    case synchronizationComponent
-    case transform
+  case accessibilityComponent
+  case anchoringComponent
+  case characterControllerComponent
+  case characterControllerStateComponent
+  case collisionComponent
+  case directionalLightComponent
+  case modelComponent
+  case modelDebugOptionsComponent
+  case perspectiveCameraComponent
+  case physicsBodyComponent
+  case physicsMotionComponent
+  case pointLightComponent
+  case spotLightComponent
+  case synchronizationComponent
+  case transform
 }
 
 extension ComponentType {
@@ -202,37 +202,37 @@ extension ComponentType: CustomStringConvertible {
 #elseif os(visionOS)
 
 public enum ComponentType: CaseIterable, Codable {
-    case accessibilityComponent
-    case adaptiveResolutionComponent
-    case ambientAudioComponent
-    case anchoringComponent
-    case audioMixGroupsComponent
-    case channelAudioComponent
-    case characterControllerComponent
-    case characterControllerStateComponent
-    case collisionComponent
-    case groundingShadowComponent
-    case hoverEffectComponent
-    case imageBasedLightComponent
-    case imageBasedLightReceiverComponent
-    case inputTargetComponent
-    case modelComponent
-    case modelDebugOptionsComponent
-    case modelSortGroupComponent
-    case opacityComponent
-    case particleEmitterComponent
-    case perspectiveCameraComponent
-    case physicsBodyComponent
-    case physicsMotionComponent
-    case physicsSimulationComponent
-    case portalComponent
-    case sceneUnderstandingComponent
-    case spatialAudioComponent
-    case synchronizationComponent
-    case textComponent
-    case transform
-    case videoPlayerComponent
-    case worldComponent
+  case accessibilityComponent
+  case adaptiveResolutionComponent
+  case ambientAudioComponent
+  case anchoringComponent
+  case audioMixGroupsComponent
+  case channelAudioComponent
+  case characterControllerComponent
+  case characterControllerStateComponent
+  case collisionComponent
+  case groundingShadowComponent
+  case hoverEffectComponent
+  case imageBasedLightComponent
+  case imageBasedLightReceiverComponent
+  case inputTargetComponent
+  case modelComponent
+  case modelDebugOptionsComponent
+  case modelSortGroupComponent
+  case opacityComponent
+  case particleEmitterComponent
+  case perspectiveCameraComponent
+  case physicsBodyComponent
+  case physicsMotionComponent
+  case physicsSimulationComponent
+  case portalComponent
+  case sceneUnderstandingComponent
+  case spatialAudioComponent
+  case synchronizationComponent
+  case textComponent
+  case transform
+  case videoPlayerComponent
+  case worldComponent
 }
 
 extension ComponentType {

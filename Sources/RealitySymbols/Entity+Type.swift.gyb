@@ -4,28 +4,23 @@ import RealityKit
 #if os(iOS)
 
 public enum EntityType: CaseIterable, Codable {
-%{
-  import json
-}%
+% import json
 % with open('Resources/iOS/Processed/Entities.json') as file:
-    % data = json.load(file)
-    % for entity in data["entities"]:
-%{
-code = entity[0].lower() + entity[1:]
-}%
-        % if code:
-    case ${code}
-        %end
+  % data = json.load(file)
+  % for entity in data:
+    % if entity:
+  case ${entity["name"][0].lower() + entity["name"][1:]}
     %end
+  %end
 %end
 }
 
 extension EntityType {
   public var type: RealityKit.Entity.Type {
     switch self {
-    % for entity in data["entities"]:
-    case .${entity[0].lower() + entity[1:]}:
-      return ${entity}.self
+    % for entity in data:
+    case .${entity["name"][0].lower() + entity["name"][1:]}:
+      return ${entity["name"]}.self
     %end
     }
   }
@@ -34,9 +29,9 @@ extension EntityType {
 extension EntityType: CustomStringConvertible {
   public var description: String {
     switch self {
-    % for entity in data["entities"]:
-    case .${entity[0].lower() + entity[1:]}:
-      return "${entity}"
+    % for entity in data:
+    case .${entity["name"][0].lower() + entity["name"][1:]}:
+      return "${entity["name"]}"
     %end
     }
   }
@@ -45,28 +40,23 @@ extension EntityType: CustomStringConvertible {
 #elseif os(macOS)
 
 public enum EntityType: CaseIterable, Codable {
-%{
-  import json
-}%
+% import json
 % with open('Resources/macOS/Processed/Entities.json') as file:
-    % data = json.load(file)
-    % for entity in data["entities"]:
-%{
-code = entity[0].lower() + entity[1:]
-}%
-        % if code:
-    case ${code}
-        %end
+  % data = json.load(file)
+  % for entity in data:
+    % if entity:
+  case ${entity["name"][0].lower() + entity["name"][1:]}
     %end
+  %end
 %end
 }
 
 extension EntityType {
   public var type: RealityKit.Entity.Type {
     switch self {
-    % for entity in data["entities"]:
-    case .${entity[0].lower() + entity[1:]}:
-      return ${entity}.self
+    % for entity in data:
+    case .${entity["name"][0].lower() + entity["name"][1:]}:
+      return ${entity["name"]}.self
     %end
     }
   }
@@ -75,9 +65,9 @@ extension EntityType {
 extension EntityType: CustomStringConvertible {
   public var description: String {
     switch self {
-    % for entity in data["entities"]:
-    case .${entity[0].lower() + entity[1:]}:
-      return "${entity}"
+    % for entity in data:
+    case .${entity["name"][0].lower() + entity["name"][1:]}:
+      return "${entity["name"]}"
     %end
     }
   }
@@ -86,28 +76,23 @@ extension EntityType: CustomStringConvertible {
 #elseif os(visionOS)
 
 public enum EntityType: CaseIterable, Codable {
-%{
-  import json
-}%
+% import json
 % with open('Resources/xrOS/Processed/Entities.json') as file:
-    % data = json.load(file)
-    % for entity in data["entities"]:
-%{
-code = entity[0].lower() + entity[1:]
-}%
-        % if code:
-    case ${code}
-        %end
+  % data = json.load(file)
+  % for entity in data:
+    % if entity:
+  case ${entity["name"][0].lower() + entity["name"][1:]}
     %end
+  %end
 %end
 }
 
 extension EntityType {
   public var type: RealityKit.Entity.Type {
     switch self {
-    % for entity in data["entities"]:
-    case .${entity[0].lower() + entity[1:]}:
-      return ${entity}.self
+    % for entity in data:
+    case .${entity["name"][0].lower() + entity["name"][1:]}:
+      return ${entity["name"]}.self
     %end
     }
   }
@@ -116,9 +101,9 @@ extension EntityType {
 extension EntityType: CustomStringConvertible {
   public var description: String {
     switch self {
-    % for entity in data["entities"]:
-    case .${entity[0].lower() + entity[1:]}:
-      return "${entity}"
+    % for entity in data:
+    case .${entity["name"][0].lower() + entity["name"][1:]}:
+      return "${entity["name"]}"
     %end
     }
   }

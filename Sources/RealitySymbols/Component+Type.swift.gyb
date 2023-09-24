@@ -4,19 +4,14 @@ import RealityKit
 #if os(iOS)
 
 public enum ComponentType: CaseIterable, Codable {
-%{
-  import json
-}%
+% import json
 % with open('Resources/iOS/Processed/Components.json') as file:
-    % data = json.load(file)
-    % for component in data:
-%{
-code = component
-}%
-        % if code:
-    case ${code["name"][0].lower() + code["name"][1:]}
-        %end
+  % data = json.load(file)
+  % for component in data:
+    % if component:
+  case ${component["name"][0].lower() + component["name"][1:]}
     %end
+  %end
 %end
 }
 
@@ -45,19 +40,14 @@ extension ComponentType: CustomStringConvertible {
 #elseif os(macOS)
 
 public enum ComponentType: CaseIterable, Codable {
-%{
-  import json
-}%
+% import json
 % with open('Resources/macOS/Processed/Components.json') as file:
-    % data = json.load(file)
-    % for component in data:
-%{
-code = component
-}%
-        % if code:
-    case ${code["name"][0].lower() + code["name"][1:]}
-        %end
+  % data = json.load(file)
+  % for component in data:
+    % if component:
+  case ${component["name"][0].lower() + component["name"][1:]}
     %end
+  %end
 %end
 }
 
@@ -86,19 +76,14 @@ extension ComponentType: CustomStringConvertible {
 #elseif os(visionOS)
 
 public enum ComponentType: CaseIterable, Codable {
-%{
-  import json
-}%
+% import json
 % with open('Resources/xrOS/Processed/Components.json') as file:
-    % data = json.load(file)
-    % for component in data:
-%{
-code = component
-}%
-        % if code:
-    case ${code["name"][0].lower() + code["name"][1:]}
-        %end
+  % data = json.load(file)
+  % for component in data:
+    % if component:
+  case ${component["name"][0].lower() + component["name"][1:]}
     %end
+  %end
 %end
 }
 
