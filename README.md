@@ -4,7 +4,6 @@
 2. Decode and select
 3. Generate `.swift` files with GYB
 
-
 ## SymbolKit
 
 ### Extract iOS symbols
@@ -44,17 +43,19 @@ swift symbolgraph-extract \
 
 ### Generate Entity types
 
+[Swift GYB](https://nshipster.com/swift-gyb/)
+
 ```
-./gyb Entity+Type.swift.gyb  \
-   -o Entity+Type.swift \
-   --line-directive ''
+gyb Entity+Type.swift.gyb  \
+  -o Entity+Type.swift \
+  --line-directive ''
 ```
 
 ### Generate Component types
 
 ```
-./gyb Component+Type.swift.gyb  \
-   -o Component+Type.swift \
-   --line-directive ''
+gyb Component+Type.swift.gyb  \
+  -o Component+Type.swift \
+  --line-directive ''
 ```
 
