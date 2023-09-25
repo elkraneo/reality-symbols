@@ -29,7 +29,11 @@ extension ComponentType {
   public var type: RealityKit.Component.Type {
     switch self {
     case .accessibilityComponent:
-      return AccessibilityComponent.self
+      if #available(macOS 14.0, iOS 17.0, *) {
+        return AccessibilityComponent.self
+      } else {
+        fatalError()
+      }
     case .anchoringComponent:
       return AnchoringComponent.self
     case .bodyTrackingComponent:
