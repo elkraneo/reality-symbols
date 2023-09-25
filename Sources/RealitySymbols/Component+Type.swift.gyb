@@ -3,12 +3,10 @@
 
 import Foundation
 import RealityKit
-
-#if os(iOS)
+% import json
 
 public enum ComponentType: CaseIterable, Codable {
-% import json
-% with open('Resources/iOS/Processed/Components.json') as file:
+% with open('Extracted/Unified/Processed/Components.json') as file:
   % data = json.load(file)
   % for component in data:
     % if component:
@@ -18,17 +16,6 @@ public enum ComponentType: CaseIterable, Codable {
 %end
 }
 
-extension ComponentType {
-  public var type: RealityKit.Component.Type {
-    switch self {
-    % for component in data:
-    case .${component["name"][0].lower() + component["name"][1:]}:
-      return ${component["name"]}.self
-    %end
-    }
-  }
-}
-
 extension ComponentType: CustomStringConvertible {
   public var description: String {
     switch self {
@@ -36,24 +23,31 @@ extension ComponentType: CustomStringConvertible {
     case .${component["name"][0].lower() + component["name"][1:]}:
       return "${component["name"]}"
     %end
+    }
+  }
+}
+
+#if os(iOS)
+
+% with open('Extracted/iOS/Processed/Components.json') as file:
+  % data = json.load(file)
+extension ComponentType {
+  public var type: RealityKit.Component.Type {
+    switch self {
+    % for component in data:
+    case .${component["name"][0].lower() + component["name"][1:]}:
+      return ${component["name"]}.self
+    %end
+    default:
+      fatalError()
     }
   }
 }
 
 #elseif os(macOS)
 
-public enum ComponentType: CaseIterable, Codable {
-% import json
-% with open('Resources/macOS/Processed/Components.json') as file:
+% with open('Extracted/macOS/Processed/Components.json') as file:
   % data = json.load(file)
-  % for component in data:
-    % if component:
-  case ${component["name"][0].lower() + component["name"][1:]}
-    %end
-  %end
-%end
-}
-
 extension ComponentType {
   public var type: RealityKit.Component.Type {
     switch self {
@@ -61,35 +55,16 @@ extension ComponentType {
     case .${component["name"][0].lower() + component["name"][1:]}:
       return ${component["name"]}.self
     %end
-    }
-  }
-}
-
-extension ComponentType: CustomStringConvertible {
-  public var description: String {
-    switch self {
-    % for component in data:
-    case .${component["name"][0].lower() + component["name"][1:]}:
-      return "${component["name"]}"
-    %end
+    default:
+      fatalError()
     }
   }
 }
 
 #elseif os(visionOS)
 
-public enum ComponentType: CaseIterable, Codable {
-% import json
-% with open('Resources/xrOS/Processed/Components.json') as file:
+% with open('Extracted/xrOS/Processed/Components.json') as file:
   % data = json.load(file)
-  % for component in data:
-    % if component:
-  case ${component["name"][0].lower() + component["name"][1:]}
-    %end
-  %end
-%end
-}
-
 extension ComponentType {
   public var type: RealityKit.Component.Type {
     switch self {
@@ -97,17 +72,8 @@ extension ComponentType {
     case .${component["name"][0].lower() + component["name"][1:]}:
       return ${component["name"]}.self
     %end
-    }
-  }
-}
-
-extension ComponentType: CustomStringConvertible {
-  public var description: String {
-    switch self {
-    % for component in data:
-    case .${component["name"][0].lower() + component["name"][1:]}:
-      return "${component["name"]}"
-    %end
+    default:
+      fatalError()
     }
   }
 }
