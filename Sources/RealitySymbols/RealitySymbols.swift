@@ -13,37 +13,39 @@ let url_macOS = Bundle.module.url(
   subdirectory: "Extracted/macOS/Symbols"
 )!
 
-let url_xrOS = Bundle.module.url(
+let url_visionOS = Bundle.module.url(
   forResource: "RealityFoundation.symbols",
   withExtension: "json",
-  subdirectory: "Extracted/xrOS/Symbols"
+  subdirectory: "Extracted/visionOS/Symbols"
 )!
 
 // MARK: - Decoding
 
-func iOSSymbolGraph() -> SymbolGraph {
+var iOSSymbolGraph: SymbolGraph {
   let data = try! Data(contentsOf: url_iOS)
   let symbolGraph = try! JSONDecoder().decode(SymbolGraph.self, from: data)
   return symbolGraph
 }
 
-func macOSSymbolGraph() -> SymbolGraph {
+var macOSSymbolGraph: SymbolGraph {
   let data = try! Data(contentsOf: url_macOS)
   let symbolGraph = try! JSONDecoder().decode(SymbolGraph.self, from: data)
   return symbolGraph
 }
 
-func xrOSSymbolGraph() -> SymbolGraph {
-  let data = try! Data(contentsOf: url_xrOS)
+var visionOSSymbolGraph: SymbolGraph {
+  let data = try! Data(contentsOf: url_visionOS)
   let symbolGraph = try! JSONDecoder().decode(SymbolGraph.self, from: data)
   return symbolGraph
 }
 
-func allSymbolGraphs() -> [SymbolGraph] {
+// MARK: -
+
+var allSymbolGraphs: [SymbolGraph] {
   [
-    iOSSymbolGraph(),
-    macOSSymbolGraph(),
-    xrOSSymbolGraph(),
+    iOSSymbolGraph,
+    macOSSymbolGraph,
+    visionOSSymbolGraph,
   ]
 }
 
@@ -63,9 +65,9 @@ func unifiedSymbolGraph() -> UnifiedSymbolGraph? {
    */
 
   //MARK: Unify
-  let unifiedSymbolGraph = UnifiedSymbolGraph(fromSingleGraph: iOSSymbolGraph(), at: url_iOS)
-  unifiedSymbolGraph?.mergeGraph(graph: macOSSymbolGraph(), at: url_macOS)
-  unifiedSymbolGraph?.mergeGraph(graph: xrOSSymbolGraph(), at: url_xrOS)
+  let unifiedSymbolGraph = UnifiedSymbolGraph(fromSingleGraph: iOSSymbolGraph, at: url_iOS)
+  unifiedSymbolGraph?.mergeGraph(graph: macOSSymbolGraph, at: url_macOS)
+  unifiedSymbolGraph?.mergeGraph(graph: visionOSSymbolGraph, at: url_visionOS)
 
   return unifiedSymbolGraph
 }
