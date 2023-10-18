@@ -21,10 +21,10 @@ final class RealitySymbolsTests: XCTestCase {
     createComponentsFile(from: macOSSymbolGraph, at: componentsOutputPath_macOS)
 
     // visionOS
-    let entitiesOutputPath_visionOS = basePath.appending("/xrOS/Processed/Entities.json")
+    let entitiesOutputPath_visionOS = basePath.appending("/visionOS/Processed/Entities.json")
     createEntitiesFile(from: visionOSSymbolGraph, at: entitiesOutputPath_visionOS)
     
-    let componentsOutputPath_visionOS = basePath.appending("/xrOS/Processed/Components.json")
+    let componentsOutputPath_visionOS = basePath.appending("/visionOS/Processed/Components.json")
     createComponentsFile(from: visionOSSymbolGraph, at: componentsOutputPath_visionOS)
   }
   

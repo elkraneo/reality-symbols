@@ -3,6 +3,8 @@
 import Foundation
 import RealityKit
 
+//MARK: - iOS
+
 extension RealityPlatform.iOS {
   public enum EntityType: CaseIterable, Codable {
     case anchorEntity
@@ -43,7 +45,6 @@ extension RealityPlatform.iOS.EntityType: CustomStringConvertible {
 }
 
 #if os(iOS)
-
 extension RealityPlatform.iOS.EntityType {
   public var rawType: RealityKit.Entity.Type {
     switch self {
@@ -68,8 +69,9 @@ extension RealityPlatform.iOS.EntityType {
     }
   }
 }
-
 #endif
+
+//MARK: - macOS
 
 extension RealityPlatform.macOS {
   public enum EntityType: CaseIterable, Codable {
@@ -108,7 +110,6 @@ extension RealityPlatform.macOS.EntityType: CustomStringConvertible {
 }
 
 #if os(macOS)
-
 extension RealityPlatform.macOS.EntityType {
   public var rawType: RealityKit.Entity.Type {
     switch self {
@@ -131,8 +132,9 @@ extension RealityPlatform.macOS.EntityType {
     }
   }
 }
-
 #endif
+
+//MARK: - visionOS
 
 extension RealityPlatform.visionOS {
   public enum EntityType: CaseIterable, Codable {
@@ -162,7 +164,6 @@ extension RealityPlatform.visionOS.EntityType: CustomStringConvertible {
 }
 
 #if os(visionOS)
-
 extension RealityPlatform.visionOS.EntityType {
   public var rawType: RealityKit.Entity.Type {
     switch self {
@@ -179,6 +180,4 @@ extension RealityPlatform.visionOS.EntityType {
     }
   }
 }
-
 #endif
-

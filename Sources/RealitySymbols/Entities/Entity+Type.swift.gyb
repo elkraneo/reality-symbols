@@ -4,6 +4,8 @@
 import Foundation
 import RealityKit
 % import json
+
+//MARK: - iOS
 % with open('../Extracted/iOS/Processed/Entities.json') as file:
 % data = json.load(file)
 
@@ -30,7 +32,6 @@ extension RealityPlatform.iOS.EntityType: CustomStringConvertible {
 }
 
 #if os(iOS)
-
 extension RealityPlatform.iOS.EntityType {
   public var rawType: RealityKit.Entity.Type {
     switch self {
@@ -41,8 +42,9 @@ extension RealityPlatform.iOS.EntityType {
     }
   }
 }
-
 #endif
+
+//MARK: - macOS
 % with open('../Extracted/macOS/Processed/Entities.json') as file:
 % data = json.load(file)
 
@@ -69,7 +71,6 @@ extension RealityPlatform.macOS.EntityType: CustomStringConvertible {
 }
 
 #if os(macOS)
-
 extension RealityPlatform.macOS.EntityType {
   public var rawType: RealityKit.Entity.Type {
     switch self {
@@ -80,8 +81,9 @@ extension RealityPlatform.macOS.EntityType {
     }
   }
 }
-
 #endif
+
+//MARK: - visionOS
 % with open('../Extracted/visionOS/Processed/Entities.json') as file:
 % data = json.load(file)
 
@@ -108,7 +110,6 @@ extension RealityPlatform.visionOS.EntityType: CustomStringConvertible {
 }
 
 #if os(visionOS)
-
 extension RealityPlatform.visionOS.EntityType {
   public var rawType: RealityKit.Entity.Type {
     switch self {
@@ -119,6 +120,4 @@ extension RealityPlatform.visionOS.EntityType {
     }
   }
 }
-
 #endif
-

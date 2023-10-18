@@ -5,77 +5,77 @@ import Foundation
 import RealityKit
 % import json
 
-public enum ComponentType: CaseIterable, Codable {
-% with open('Extracted/Unified/Processed/Components.json') as file:
-  % data = json.load(file)
-  % for component in data:
-    % if component:
-  case ${component["name"][0].lower() + component["name"][1:]}
-    %end
-  %end
-%end
-}
+//MARK: - iOS
+% with open('../Extracted/iOS/Processed/Components.json') as file:
+% data = json.load(file)
 
-extension ComponentType: CustomStringConvertible {
-  public var description: String {
-    switch self {
+extension RealityPlatform.iOS {
+  public enum ComponentType: CaseIterable {
     % for component in data:
-    case .${component["name"][0].lower() + component["name"][1:]}:
-      return "${component["name"]}"
+    case ${component["name"][0].lower() + component["name"][1:]}
     %end
-    }
   }
 }
 
 #if os(iOS)
-
-% with open('Extracted/iOS/Processed/Components.json') as file:
-  % data = json.load(file)
-extension ComponentType {
-  public var type: RealityKit.Component.Type {
+extension RealityPlatform.iOS.ComponentType {
+  public var rawType: RealityKit.Component.Type {
     switch self {
     % for component in data:
     case .${component["name"][0].lower() + component["name"][1:]}:
       return ${component["name"]}.self
     %end
-    default:
-      fatalError()
     }
   }
 }
+#endif
 
-#elseif os(macOS)
+//MARK: - macOS
+% with open('../Extracted/macOS/Processed/Components.json') as file:
+% data = json.load(file)
 
-% with open('Extracted/macOS/Processed/Components.json') as file:
-  % data = json.load(file)
-extension ComponentType {
-  public var type: RealityKit.Component.Type {
+extension RealityPlatform.macOS {
+  public enum ComponentType: CaseIterable {
+    % for component in data:
+    case ${component["name"][0].lower() + component["name"][1:]}
+    %end
+  }
+}
+
+#if os(macOS)
+extension RealityPlatform.macOS.ComponentType {
+  public var rawType: RealityKit.Component.Type {
     switch self {
     % for component in data:
     case .${component["name"][0].lower() + component["name"][1:]}:
       return ${component["name"]}.self
     %end
-    default:
-      fatalError()
     }
   }
 }
+#endif
 
-#elseif os(visionOS)
+//MARK: - visionOS
+% with open('../Extracted/visionOS/Processed/Components.json') as file:
+% data = json.load(file)
 
-% with open('Extracted/xrOS/Processed/Components.json') as file:
-  % data = json.load(file)
-extension ComponentType {
-  public var type: RealityKit.Component.Type {
+extension RealityPlatform.visionOS {
+  public enum ComponentType: CaseIterable {
+    % for component in data:
+    case ${component["name"][0].lower() + component["name"][1:]}
+    %end
+  }
+}
+
+#if os(visionOS)
+extension RealityPlatform.visionOS.ComponentType {
+  public var rawType: RealityKit.Component.Type {
     switch self {
     % for component in data:
     case .${component["name"][0].lower() + component["name"][1:]}:
       return ${component["name"]}.self
     %end
-    default:
-      fatalError()
     }
   }
 }
-
 #endif
