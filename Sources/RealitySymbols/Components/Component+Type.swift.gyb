@@ -6,6 +6,7 @@ import RealityKit
 % import json
 
 //MARK: - iOS
+
 % with open('../Extracted/iOS/Processed/Components.json') as file:
 % data = json.load(file)
 
@@ -14,17 +15,6 @@ extension RealityPlatform.iOS {
     % for component in data:
     case ${component["name"][0].lower() + component["name"][1:]}
     %end
-  }
-}
-
-extension RealityPlatform.iOS.ComponentType: CustomStringConvertible {
-  public var description: String {
-    switch self {
-    % for component in data:
-    case .${component["name"][0].lower() + component["name"][1:]}:
-      return "${component["name"]}"
-    %end
-    }
   }
 }
 
@@ -42,6 +32,7 @@ extension RealityPlatform.iOS.ComponentType {
 #endif
 
 //MARK: - macOS
+
 % with open('../Extracted/macOS/Processed/Components.json') as file:
 % data = json.load(file)
 
@@ -50,17 +41,6 @@ extension RealityPlatform.macOS {
     % for component in data:
     case ${component["name"][0].lower() + component["name"][1:]}
     %end
-  }
-}
-
-extension RealityPlatform.macOS.ComponentType: CustomStringConvertible {
-  public var description: String {
-    switch self {
-    % for component in data:
-    case .${component["name"][0].lower() + component["name"][1:]}:
-      return "${component["name"]}"
-    %end
-    }
   }
 }
 
@@ -78,6 +58,7 @@ extension RealityPlatform.macOS.ComponentType {
 #endif
 
 //MARK: - visionOS
+
 % with open('../Extracted/visionOS/Processed/Components.json') as file:
 % data = json.load(file)
 
@@ -86,17 +67,6 @@ extension RealityPlatform.visionOS {
     % for component in data:
     case ${component["name"][0].lower() + component["name"][1:]}
     %end
-  }
-}
-
-extension RealityPlatform.visionOS.ComponentType: CustomStringConvertible {
-  public var description: String {
-    switch self {
-    % for component in data:
-    case .${component["name"][0].lower() + component["name"][1:]}:
-      return "${component["name"]}"
-    %end
-    }
   }
 }
 
