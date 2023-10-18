@@ -17,6 +17,17 @@ extension RealityPlatform.iOS {
   }
 }
 
+extension RealityPlatform.iOS.ComponentType: CustomStringConvertible {
+  public var description: String {
+    switch self {
+    % for component in data:
+    case .${component["name"][0].lower() + component["name"][1:]}:
+      return "${component["name"]}"
+    %end
+    }
+  }
+}
+
 #if os(iOS)
 extension RealityPlatform.iOS.ComponentType {
   public var rawType: RealityKit.Component.Type {
@@ -42,6 +53,17 @@ extension RealityPlatform.macOS {
   }
 }
 
+extension RealityPlatform.macOS.ComponentType: CustomStringConvertible {
+  public var description: String {
+    switch self {
+    % for component in data:
+    case .${component["name"][0].lower() + component["name"][1:]}:
+      return "${component["name"]}"
+    %end
+    }
+  }
+}
+
 #if os(macOS)
 extension RealityPlatform.macOS.ComponentType {
   public var rawType: RealityKit.Component.Type {
@@ -64,6 +86,17 @@ extension RealityPlatform.visionOS {
     % for component in data:
     case ${component["name"][0].lower() + component["name"][1:]}
     %end
+  }
+}
+
+extension RealityPlatform.visionOS.ComponentType: CustomStringConvertible {
+  public var description: String {
+    switch self {
+    % for component in data:
+    case .${component["name"][0].lower() + component["name"][1:]}:
+      return "${component["name"]}"
+    %end
+    }
   }
 }
 
