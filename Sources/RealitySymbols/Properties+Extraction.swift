@@ -11,6 +11,7 @@ struct _Property: Codable, Hashable {
 struct _Properties: Codable, Hashable {
   let name: String
   let properties: [_Property]
+  let comment: String?
 
   func hash(into hasher: inout Hasher) {
     hasher.combine(name)
@@ -29,8 +30,8 @@ func extractProperties(
 ) -> [_Properties] {
 
   var _properties: [_Properties] = []
-
   for symbol in symbols {
+
     var symbol_properties: [_Property] = []
 
     let properties = symbolGraph.symbols.values
@@ -41,8 +42,8 @@ func extractProperties(
     for property in properties {
       let name = property.names.title
       let type = property.names.typeSpelling
-      let complete = property.declarationFragments?.map(\.spelling).reduce("", +)
-      let comment = property.docComment?.lines.map(\.text).reduce("", +)
+      let complete = property.declarationFragments?.map(\.spelling).joined()
+      let comment = property.docComment?.lines.map(\.text).joined(separator: " ")
 
       symbol_properties.append(
         .init(
@@ -57,7 +58,8 @@ func extractProperties(
     _properties.append(
       .init(
         name: symbol.names.title,
-        properties: symbol_properties
+        properties: symbol_properties,
+        comment: symbol.docComment?.lines.map(\.text).joined(separator: " ")
       )
     )
   }
