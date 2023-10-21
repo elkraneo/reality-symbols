@@ -27,8 +27,8 @@ func extractComponents(from symbolGraph: SymbolGraph) -> [SymbolGraph.Symbol] {
 // MARK: - Create files
 
 func createComponentsFile(from symbolGraph: SymbolGraph, at path: String) {
-  let symbols = extractComponents(from: symbolGraph)
-  let properties = extractProperties(from: symbols, in: symbolGraph)
+  let componentsSymbols = extractComponents(from: symbolGraph)
+  let properties = extractProperties(from: componentsSymbols, in: symbolGraph)
 
   var _components: [_Properties] = []
 

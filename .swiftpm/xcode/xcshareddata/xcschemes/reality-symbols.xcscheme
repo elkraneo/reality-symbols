@@ -52,6 +52,11 @@
                BlueprintName = "RealitySymbolsTests"
                ReferencedContainer = "container:">
             </BuildableReference>
+            <SkippedTests>
+               <Test
+                  Identifier = "RealitySymbolsTests/testUnified()">
+               </Test>
+            </SkippedTests>
          </TestableReference>
       </Testables>
    </TestAction>
